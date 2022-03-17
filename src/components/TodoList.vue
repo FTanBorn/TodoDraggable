@@ -36,7 +36,7 @@
             <label> Görevi Yazınız </label>
           </div>
           <div class="">
-            <input type="text" class="form-control input-group-sm" v-model="this.netTask.todo" >
+            <input type="text" class="form-control input-group-sm" REQUIRED v-model="this.netTask.todo" >
           </div>
           <div class="">
             <label> Açıklama Yazınız </label>

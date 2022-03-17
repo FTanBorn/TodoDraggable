@@ -5,7 +5,7 @@
       <form @submit.prevent="addTodo" class="d-flex justify-content-center">
         <div class="col-2 m-2">
           <label> Tablo Eklemek İçin </label>
-          <input type="text" class="form-control input-group-sm " v-model="newTask.status">
+          <input type="text" class="form-control input-group-sm"  required v-model="newTask.status">
         </div>
 
           <button class="btn btn-info ms-2 mt-4" type="submit"> +EKLE</button>
@@ -17,7 +17,7 @@
     <div class="row mt-5">
       <div class="col-3" v-for="cont in columns" :key="cont.id">
 
-        <apptodolist :menuad=cont :deleteid="cont" ></apptodolist>
+        <apptodolist :menuad=cont  ></apptodolist>
       </div>
     </div>
   </div>
@@ -25,7 +25,8 @@
   <div class="container">
     <div class="row mt-5">
       <div class="col-3" v-for="i in boards" :key="i.id">
-        {{ i.status}}
+        {{ i.status}} {{i.todo}} {{ i.description}} {{i.key}}
+        <div><button class="btn btn-danger" @click="deleteTodos(i.key)">DELETE</button></div>
       </div>
     </div>
   </div>
@@ -75,7 +76,9 @@ export default {
       querySnapshot.forEach((doc) => {
         this.boards.push({
           key : doc.id,
-          status : doc.data().status
+          status : doc.data().status,
+          todo : doc.data().todo,
+          description : doc.data().description
         })
       })
     })
@@ -113,10 +116,18 @@ export default {
   methods: {
     addTodo() {
       firebase.firestore().collection("todos").add({
-        status: this.newTask.status.toUpperCase(),
+          status: this.newTask.status.toUpperCase(),
       })
       this.newTask = {}
       console.log("Başarılı")
+    },
+    deleteTodos(doc) {
+      firebase.firestore().collection("todos").doc(doc).delete().then(function() {
+        console.log("Document successfully deleted!");
+        // location.reload()
+      }).catch(function(error) {
+        console.error("Error removing document: ", error);
+      });
     }
   },
 
