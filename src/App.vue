@@ -4,23 +4,11 @@
     <div class="row d-flex justify-content-center">
       <form @submit.prevent="addTodo" class="d-flex justify-content-center">
         <div class="col-2 m-2">
-          <label> Tablo Başlığını Yazınız </label>
+          <label> Tablo Eklemek İçin </label>
           <input type="text" class="form-control input-group-sm " v-model="newTask.status">
         </div>
-        <div class="col-3">
 
-        </div>
-        <div class="col-3 m-2">
-          <label>Görevi Yazınız </label>
-          <input type="text" class="form-control input-group-sm" v-model="newTask.todo">
-        </div>
-        <div class="col-3 m-2">
-          <label>Görevi Yazınız </label>
-          <input type="text" class="form-control input-group-sm" v-model="newTask.description">
-        </div>
-        <div class="col-3 m-2">
           <button class="btn btn-info ms-2 mt-4" type="submit"> +EKLE</button>
-        </div>
       </form>
     </div>
   </div>
@@ -41,6 +29,10 @@
       </div>
     </div>
   </div>
+
+
+
+
 
 </template>
 
@@ -69,8 +61,6 @@ export default {
       selectedStatus:[],
       newTask: {
         status: "",
-        todo: "",
-        description: "",
       },
       boards:[],
       ref:firebase.firestore().collection("todos")
@@ -124,8 +114,6 @@ export default {
     addTodo() {
       firebase.firestore().collection("todos").add({
         status: this.newTask.status.toUpperCase(),
-        todo: this.newTask.todo,
-        description : this.newTask.description
       })
       this.newTask = {}
       console.log("Başarılı")
