@@ -1,26 +1,159 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+
+  <div class="container mt-5 ">
+    <div class="row d-flex justify-content-center">
+      <form @submit.prevent="addTodo" class="d-flex justify-content-center">
+        <div class="col-2 m-2">
+          <label> Tablo Başlığını Yazınız </label>
+          <input type="text" class="form-control input-group-sm " v-model="newTask.status">
+        </div>
+        <div class="col-3">
+
+        </div>
+        <div class="col-3 m-2">
+          <label>Görevi Yazınız </label>
+          <input type="text" class="form-control input-group-sm" v-model="newTask.todo">
+        </div>
+        <div class="col-3 m-2">
+          <label>Görevi Yazınız </label>
+          <input type="text" class="form-control input-group-sm" v-model="newTask.description">
+        </div>
+        <div class="col-3 m-2">
+          <button class="btn btn-info ms-2 mt-4" type="submit"> +EKLE</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row mt-5">
+      <div class="col-3" v-for="cont in columns" :key="cont.id">
+
+        <apptodolist :menuad=cont :deleteid="cont" ></apptodolist>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row mt-5">
+      <div class="col-3" v-for="i in boards" :key="i.id">
+        {{ i.status}}
+      </div>
+    </div>
+  </div>
+
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+
+import TodoList from "../src/components/TodoList.vue";
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
+import "firebase/firestore";
+
+
+
+
+
+
 
 export default {
-  name: 'App',
+
+
+
+
+  data() {
+    return {
+      columns: {},
+      selectedStatus:[],
+      newTask: {
+        status: "",
+        todo: "",
+        description: "",
+      },
+      boards:[],
+      ref:firebase.firestore().collection("todos")
+
+
+
+    };
+  },
+  created() {
+    this.ref.onSnapshot((querySnapshot) => {
+      this.boards = [];
+      querySnapshot.forEach((doc) => {
+        this.boards.push({
+          key : doc.id,
+          status : doc.data().status
+        })
+      })
+    })
+
+  },
+
+
+  mounted() {
+    this.database.onSnapshot(snapshot => {
+      snapshot.docChanges().forEach(change => {
+        if (change.type === "added") {
+          if (!this.columns[change.doc.data().status]) {
+            this.columns[change.doc.data().status] = []
+          }
+          this.columns[change.doc.data().status].push({
+            id: change.doc.id,
+            ...change.doc.data()
+          })
+        }
+      })
+    }),
+
+
+
+
+
+
+    console.log("Colleciton ver =>")
+
+
+  },
+
+
+
+  methods: {
+    addTodo() {
+      firebase.firestore().collection("todos").add({
+        status: this.newTask.status.toUpperCase(),
+        todo: this.newTask.todo,
+        description : this.newTask.description
+      })
+      this.newTask = {}
+      console.log("Başarılı")
+    }
+  },
+
+
+
+
+  computed: {
+    database() {
+      return firebase.firestore().collection('todos');
+    },
+
+  },
+
   components: {
-    HelloWorld
-  }
+    apptodolist: TodoList,
+  },
+
+
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+.on-drag {
+  background-color: #1d743e;
+  color: white;
+  z-index: 10;
 }
 </style>
