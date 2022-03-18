@@ -22,8 +22,9 @@ firebase.initializeApp(config);
 
 
 export const db = firebase.firestore();
+export const test = firebase.firestore().collection("todos").doc("todo").get()
 
-
+console.log("TestlOGO",test)
 
 
 db.collection('todos').get().then(r =>{

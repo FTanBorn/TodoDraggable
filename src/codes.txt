@@ -11,20 +11,7 @@ this[change.doc.data().status].push
         })
       })
     },
-    inProgress(value) {
-      value.map(todo => {
-        this.database.doc(todo.id).update({
-          status: "IN_PROGRESS",
-          todo: todo.todo,
-        })
-      })
-    },
-    completed(value) {
-      value.map(todo => {
-        this.database.doc(todo.id).update({
-          status: "COMPLETED",
-          todo: todo.todo
-        })
-      })
-    },
+
   },
+
+
