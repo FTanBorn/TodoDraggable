@@ -17,18 +17,12 @@
     <div class="row mt-5">
       <div class="col-3" v-for="cont in columns" :key="cont.id">
 
-        <apptodolist :menuad=cont :docid=cont.id></apptodolist>
+        <apptodolist :menuname=cont :docid=cont.id></apptodolist>
       </div>
     </div>
   </div>
 
-  <div class="container">
-    <div class="row mt-5">
-      <div class="col-3" v-for="i in boards" :key="i.id">
-        {{ i.status }} {{ i.todo }} {{i.description}} <button class="btn btn-warning btn-outline-dark btn-sm " > Güncelle</button>
-      </div>
-    </div>
-  </div>
+
 
 
 </template>
