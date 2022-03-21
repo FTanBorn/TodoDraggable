@@ -14,7 +14,9 @@
             group="todosapp"
             ghostClass="on-drag"
             animation="400"
+            @drop="dragEnd"
             @change="updateTask"
+
 
         >
           <template #item="{ element }">
@@ -104,18 +106,18 @@ export default {
         console.error("Error removing document: ", error);
       });
     },
-    updateTask(doc){
+    updateTask(doc) {
       firebase.firestore().collection("todos").doc(doc.added.element.id).update({
-        status : "TODOS"
-      })
-    }
-
+        status: this.menuad[0].status
+      });
+    },
+    
+    
 
 
 
 
   },
-
 
 
   props: ['menuad', 'deleteitem','docid'],
