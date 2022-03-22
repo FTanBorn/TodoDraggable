@@ -13,9 +13,9 @@
     </div>
   </div>
 
-  <div class="container">
+  <div class="">
     <div class="row mt-5">
-      <div class="col-3" v-for="cont in columns" :key="cont.id">
+      <div class="col-auto ms-4" v-for="cont in columns" :key="cont.id">
 
         <apptodolist :menuname=cont :docid=cont.id></apptodolist>
       </div>

@@ -1,9 +1,9 @@
 <template>
 
   <div class="">
-    <div class="card border-primary mb-3" style="">
+    <div class="card bg-darkr mb-3" style="">
       <div>
-        <div class="card-header bg-primary text-center ">
+        <div class="card-header bg-light text-center ">
           <div class="row">
             <div class="col-10 text-center mt-1 h4 ">
               <b>
@@ -22,7 +22,7 @@
         </div>
       </div>
       <div>
-        <div class="card-body">
+        <div class="card-body opacity-100">
           <draggable
               :list="menuname"
               group="todosapp"
@@ -33,34 +33,45 @@
           >
 
             <template #item="{ element }">
-              <div class="card  mb-3 bg-warning">
+              <div class="card  mb-3 bg-dark">
                 <div class="row">
-                  <div class="col-8">
+                  <div class="col-auto">
 
                     <input
+
                         :value="element.todo"
                         type="text"
                         class="form-control input-group-sm"
                         v-on:input="this.netUpdateTodo.updatetodo = $event.target.value"
-                        @keyup.enter="updateTodo(element.id)">
-                  </div>
-                  <div class="row col-4">
+                        @keydown.enter="updateTodo(element.id)"
+                        @keyup.enter="localreload"
+                        style="width: 120%;background-color: #0d4e76;border-radius: unset"
 
-                      <button type="button" class="btn btn-danger btn-sm ps-2 " @click="deleteTodoss(element.id)">
-                        Del
+
+                    >
+                  </div>
+                  <div class="col-auto">
+
+                      <button type="button" class="btn btn-danger   " @click="deleteTodoss(element.id)">
+                        Delete
                       </button>
 
                   </div>
 
                 </div>
-                <div class=" btn-outline-dark">
-                  <input
+                <div class=" ">
+
+                  <textarea
                       :value="element.description"
                       type="text"
                       class="form-control input-group-sm"
                       v-on:input="this.netUpdateDescription.updateDescription = $event.target.value"
-                      @keyup.enter="updateDescription(element.id)"
-                  >
+                      @keydown.enter="updateDescription(element.id)"
+                      @keyup.enter="localreload"
+                      style="background-color: #0d4e76;border-radius: unset"
+
+
+                  ></textarea>
                 </div>
               </div>
             </template>
@@ -69,11 +80,15 @@
         </div>
 
       </div>
+
+
+
+
       <!-- Görev Ekle -->
-      <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="true" aria-controls="collapseExample">
+      <a class="btn btn-warning" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="true" aria-controls="collapseExample">
         Görev Ekle
       </a>
-
+       <!-- Görev Ekle Collapse -->
       <div class="collapse" id="collapseExample">
         <div class="card card-body">
           <div class="modal-body bg-dark btn-outline-warning">
@@ -157,14 +172,14 @@ export default {
       firebase.firestore().collection("todos").doc(doc).update({
         todo : this.netUpdateTodo.updatetodo
       });
-      console.log("Değiştirildi")
+      console.log("Change")
 
     },
     updateDescription(doc){
       firebase.firestore().collection("todos").doc(doc).update({
         description : this.netUpdateDescription.updateDescription
       });
-      console.log("Description Değiştirildi")
+      console.log("Description Change")
 
     },
 
@@ -173,7 +188,9 @@ export default {
         status: this.menuname[0].status
       });
     },
-
+    localreload(){
+      location.reload()
+    }
 
 
 

@@ -3558,9 +3558,7 @@
  }
  
  .btn-outline-danger:hover {
-   color: #fff;
-   background-color: #e44c55;
-   border-color: #e44c55;
+
  }
  
  .btn-check:focus + .btn-outline-danger, .btn-outline-danger:focus {
