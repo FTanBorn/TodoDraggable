@@ -1,7 +1,7 @@
 <template>
 
   <div class="">
-    <div class="card bg-darkr mb-3" style="">
+    <div class="card bg-dark mb-3" style="">
       <div>
         <div class="card-header bg-light text-center ">
           <div class="row">
@@ -12,6 +12,8 @@
               </b>
 
             </div>
+            <!--  Delete TaskList  -->
+
             <div class="col-2 mt-1 float-end">
               <button type="button" class="btn  btn-danger btn-sm  float-end" @click="deleteTodoss(menuname[0].id)">
                 Delete
@@ -22,6 +24,8 @@
         </div>
       </div>
       <div>
+        <!-- Draggable  -->
+
         <div class="card-body opacity-100">
           <draggable
               :list="menuname"
@@ -35,83 +39,56 @@
             <template #item="{ element }">
               <div class="card  mb-3 bg-dark">
                 <div class="row">
+
+                  <!-- Input  todo  -->
+
                   <div class="col-auto">
 
                     <input
-
+                        placeholder="Başlık Giriniz"
                         :value="element.todo"
                         type="text"
                         class="form-control input-group-sm"
                         v-on:input="this.netUpdateTodo.updatetodo = $event.target.value"
                         @keydown.enter="updateTodo(element.id)"
-                        @keyup.enter="localreload"
                         style="width: 120%;background-color: #0d4e76;border-radius: unset"
-
-
                     >
                   </div>
-                  <div class="col-auto">
+                  <!-- Delete Task Div  -->
 
-                      <button type="button" class="btn btn-danger   " @click="deleteTodoss(element.id)">
+                  <div class="col-auto">
+                      <button type="button" class="btn  btn-danger" @click="deleteTodoss(element.id)">
                         Delete
                       </button>
-
                   </div>
-
                 </div>
+                <!-- Text Area Description  -->
                 <div class=" ">
-
                   <textarea
+                      placeholder="Açıklama Giriniz"
                       :value="element.description"
                       type="text"
+                      :rows="element.description.length>65 ? 6 : 2"
                       class="form-control input-group-sm"
                       v-on:input="this.netUpdateDescription.updateDescription = $event.target.value"
                       @keydown.enter="updateDescription(element.id)"
-                      @keyup.enter="localreload"
-                      style="background-color: #0d4e76;border-radius: unset"
-
-
+                      style="background-color: #0d4e76;border-radius: unset;height: border-box"
                   ></textarea>
                 </div>
               </div>
             </template>
-
           </draggable>
         </div>
 
       </div>
+      <!-- New Task Add  -->
+
+      <button class="btn btn-sm btn-light" @click="addTo">Görev Ekle</button>
 
 
 
 
-      <!-- Görev Ekle -->
-      <a class="btn btn-warning" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="true" aria-controls="collapseExample">
-        Görev Ekle
-      </a>
-       <!-- Görev Ekle Collapse -->
-      <div class="collapse" id="collapseExample">
-        <div class="card card-body">
-          <div class="modal-body bg-dark btn-outline-warning">
-            <form @submit.prevent="addTo">
-              <div class="">
-                <input placeholder="Başlık Yazınız !" type="text" class="form-control input-group-sm" REQUIRED
-                       v-model="this.netTask.todo">
-              </div>
-              <br>
-              <div class="">
-                <input placeholder="Açıklama Yazınız" type="text" class="form-control input-group-sm"
-                       v-model="this.netTask.description">
-              </div>
-              <br>
-              <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-info">Ekle</button>
-              </div>
-            </form>
 
-          </div>
-
-        </div>
-      </div>
 
 
     </div>
