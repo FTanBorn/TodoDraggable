@@ -4922,11 +4922,11 @@
  }
  
  .card-header {
-   padding: 0.5rem 1rem;
+   padding: 0.5rem 0.5rem;
    margin-bottom: 0;
    color: #fff;
    background-color: rgba(0, 0, 0, 0.03);
-   border-bottom: 2px solid rgba(0, 0, 0, 0.125);
+   border-bottom: 0px solid rgba(0, 0, 0, 0.125);
  }
  
  .card-header:first-child {
@@ -7991,6 +7991,9 @@
  }
  .mt-6 {
    margin-top: 3.5rem !important;
+ }
+ .mt-7{
+     margin-top: 5.5rem !important;
  }
  
  

@@ -1,37 +1,34 @@
 <template>
-
   <div class="">
-    <div class="card bg-dark mb-3" style="">
+    <div class="card mb-3" :style="{boxshadow: '3px'+shadow}">
+
       <div>
-        <div class="card-header bg-light text-center ">
+        <div  class="card-header text-center" :style="{backgroundColor : colordate}">
           <div class="row">
             <div class="col-10 text-center mt-1 h4 ">
               <b>
                 {{ menuname[0].status }}
-
               </b>
-
             </div>
             <!--  Delete TaskList  -->
-
             <div class="col-2 mt-1 float-end">
               <button type="button" class="btn  btn-danger btn-sm  float-end" @click="deleteTodoss(menuname[0].id)">
-                Delete
+                Sil
+
               </button>
             </div>
           </div>
-
         </div>
       </div>
       <div>
         <!-- Draggable  -->
 
-        <div class="card-body opacity-100">
+        <div class="card-body" :style="{backgroundColor:ColDataColor}">
           <draggable
               :list="menuname"
               group="todosapp"
               ghostClass="on-drag"
-              animation="400"
+              animation="1000"
               @change="dragTask"
 
           >
@@ -48,17 +45,18 @@
                         placeholder="Başlık Giriniz"
                         :value="element.todo"
                         type="text"
+                        :style="{backgroundColor:InputDataColor}"
                         class="form-control input-group-sm"
                         v-on:input="this.netUpdateTodo.updatetodo = $event.target.value"
                         @keydown.enter="updateTodo(element.id)"
-                        style="width: 120%;background-color: #0d4e76;border-radius: unset"
+                        style="width: 120%;border-radius: unset"
                     >
                   </div>
                   <!-- Delete Task Div  -->
 
                   <div class="col-auto">
                       <button type="button" class="btn  btn-danger" @click="deleteTodoss(element.id)">
-                        Delete
+                        Sil
                       </button>
                   </div>
                 </div>
@@ -68,11 +66,11 @@
                       placeholder="Açıklama Giriniz"
                       :value="element.description"
                       type="text"
-                      :rows="element.description.length>65 ? 6 : 2"
+                      :style="{backgroundColor:InputDataColor}"
                       class="form-control input-group-sm"
                       v-on:input="this.netUpdateDescription.updateDescription = $event.target.value"
                       @keydown.enter="updateDescription(element.id)"
-                      style="background-color: #0d4e76;border-radius: unset;height: border-box"
+                      style="border-radius: unset;height: border-box"
                   ></textarea>
                 </div>
               </div>
@@ -83,7 +81,7 @@
       </div>
       <!-- New Task Add  -->
 
-      <button class="btn btn-sm btn-light" @click="addTo">Görev Ekle</button>
+      <button class="btn btn-sm btn-light" :style="{backgroundColor : TaskDataColor}"  @click="addTo">Görev Ekle</button>
 
 
 
@@ -93,6 +91,7 @@
 
     </div>
   </div>
+
 </template>
 
 
@@ -114,6 +113,8 @@ export default {
         description: "",
       },
 
+
+
       netUpdateTodo:{
         updatetodo: "",
       } ,
@@ -126,7 +127,6 @@ export default {
     }
   },
   methods: {
-
     addTo() {
       firebase.firestore().collection("todos").add({
         status: this.menuname[0].status,
@@ -150,7 +150,6 @@ export default {
         todo : this.netUpdateTodo.updatetodo
       });
       console.log("Change")
-
     },
     updateDescription(doc){
       firebase.firestore().collection("todos").doc(doc).update({
@@ -159,24 +158,24 @@ export default {
       console.log("Description Change")
 
     },
-
     dragTask(doc) {
       firebase.firestore().collection("todos").doc(doc.added.element.id).update({
         status: this.menuname[0].status
       });
     },
-    localreload(){
-      location.reload()
-    }
+
 
 
 
   },
+  props: ['menuname', 'colordate','TaskDataColor','ColDataColor','InputDataColor','shadow'],
 
-
-  props: ['menuname', 'deleteitem', 'docid'],
   components: {
-    draggable
+    draggable,
+
+  },
+
+  created() {
 
   }
 }

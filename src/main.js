@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import mitt from 'mitt'
 import VueDraggable from 'vue-draggable';
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
@@ -35,19 +36,8 @@ db.collection('todos').get().then(r =>{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 const app = createApp(App);
-
+const eventBus = mitt()
+app.config.globalProperties.eventBus = eventBus
 app.use(VueDraggable)
 app.mount('#app');
